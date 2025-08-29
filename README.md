@@ -83,6 +83,11 @@ None
 
  * `postfix_raw_options` [default: `[]`]: List of lines (to pass extra (unsupported) configuration)
 
+ * `postfix_submission_options`: List options to enable submission on master.cf file ([see](http://www.postfix.org/master.5.html)).
+
+ * `postfix_sasl_pwcheck_method`: TODO
+
+ * `postfix_mech_list`: TODO
 
 ## Dependencies
 

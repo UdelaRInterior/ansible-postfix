@@ -44,7 +44,7 @@
     - postfix
     - postfix-mailname
 
-- name: update configuration file
+- name: update main.cf configuration file
   ansible.builtin.template:
     src: "{{ postfix_main_cf.lstrip('/') }}.j2"
     dest: "{{ postfix_main_cf }}"
@@ -56,6 +56,36 @@
     - configuration
     - postfix
     - postfix-configuration
+
+- name: update master.cf configuration file
+  ansible.builtin.template:
+    src: "{{ postfix_master_cf.lstrip('/') }}.j2"
+    dest: "{{ postfix_master_cf }}"
+    owner: root
+    group: root
+    mode: '0644'
+  notify: restart postfix
+  tags:
+    - configuration
+    - postfix
+    - postfix-configuration
+
+- name: configure saslauthd - Cyrus SASL password verification service
+  ansible.builtin.template:
+    src: "{{ postfix_sasl_config_file.lstrip('/') }}.j2"
+    dest: "{{ postfix_sasl_config_file }}"
+    owner: root
+    group: root
+    mode: '0600'
+  when:
+    - postfix_sasl_auth_enable | bool
+    - postfix_pwcheck_method is defined
+    - postfix_mech_list is defined
+  notify:
+    - restart postfix
+  tags:
+    - configuration
+    - postfix
 
 - name: configure sasl username/password
   ansible.builtin.template:

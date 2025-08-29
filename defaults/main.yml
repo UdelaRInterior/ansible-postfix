@@ -63,3 +63,13 @@ postfix_smtpd_tls_cert_file: /etc/ssl/certs/ssl-cert-snakeoil.pem
 postfix_smtpd_tls_key_file: /etc/ssl/private/ssl-cert-snakeoil.key
 
 postfix_raw_options: []
+
+# Define this to configure options for submission in master.cf
+postfix_submission_options:
+  - syslog_name=postfix/submission
+  - smtpd_tls_security_level=encrypt
+  - smtpd_sasl_auth_enable=yes
+  - smtpd_tls_auth_only=yes
+  - smtpd_reject_unlisted_recipient=no
+  - smtpd_recipient_restrictions=permit_sasl_authenticated,reject
+  - milter_macro_daemon_name=ORIGINATING
