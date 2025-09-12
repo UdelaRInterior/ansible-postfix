@@ -153,3 +153,8 @@ disable_vrfy_command = {{ postfix_disable_vrfy_command | bool | ternary('yes', '
 {% for raw_option in postfix_raw_options | default([]) %}
 {{ raw_option }}
 {% endfor %}
+
+{% if postfix_maillog is defined %}
+maillog_file = {{ postfix_maillog.file }}
+maillog_file_permissions = {{ postfix_maillog.file_permissions }}
+{% endif %}
