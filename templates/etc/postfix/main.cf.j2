@@ -126,6 +126,11 @@ smtp_tls_CAfile = {{ postfix_smtp_tls_cafile }}
 relayhost =
 {% endif %}
 
+{% if postfix_relaytls and not postfix_relayhost %}
+smtp_use_tls = {{ postfix_relaytls | bool | ternary('yes', 'no') }}
+smtp_tls_security_level = {{ postfix_smtp_tls_security_level }}
+{% endif %}
+
 {% if postfix_smtpd_client_restrictions is defined %}
 smtpd_client_restrictions = {{ postfix_smtpd_client_restrictions | join(', ') }}
 {% endif %}
