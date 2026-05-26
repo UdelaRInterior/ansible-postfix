@@ -24,6 +24,12 @@
   when: postfix_sender_canonical_maps_database_type != 'regexp'
   changed_when: true
 
+- name: postmap sender_login_maps
+  ansible.builtin.command: >
+    postmap {{ postfix_sender_login_maps_database_type }}:{{ postfix_sender_login_maps_file }}
+  when: postfix_sender_login_maps_database_type != 'regexp'
+  changed_when: true
+
 - name: postmap recipient_canonical_maps
   ansible.builtin.command: >
     postmap {{ postfix_recipient_canonical_maps_database_type }}:{{ postfix_recipient_canonical_maps_file }}
