@@ -162,6 +162,25 @@
     - postfix
     - postfix-recipient-canonical-maps
 
+- name: configure sender login maps
+  ansible.builtin.lineinfile:
+    dest: "{{ postfix_sender_login_maps_file }}"
+    regexp: '^{{ item.sender | regex_escape }}\s.*'
+    line: '{{ item.sender }} {{ item.login_user }}'
+    owner: root
+    group: root
+    mode: '0644'
+    create: true
+    state: present
+  with_items: "{{ postfix_sender_login_maps }}"
+  notify:
+    - postmap sender_login_maps
+    - restart postfix
+  tags:
+    - configuration
+    - postfix
+    - postfix-sender-login-maps
+
 - name: configure transport maps
   ansible.builtin.lineinfile:
     dest: "{{ postfix_transport_maps_file }}"
