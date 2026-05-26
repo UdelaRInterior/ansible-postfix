@@ -61,14 +61,26 @@ alias_database = {{ postfix_aliases_database_type }}:{{ postfix_aliases_file }}
 {% if postfix_virtual_aliases %}
 virtual_alias_maps = {{ postfix_default_database_type }}:{{ postfix_virtual_aliases_file }}
 {% endif %}
+{% if postfix_sender_canonical_classes %}
+sender_canonical_classes = {{ postfix_sender_canonical_classes | join(', ') }}
+{% endif %}
+{% if postfix_recipient_canonical_classes %}
+recipient_canonical_classes = {{ postfix_recipient_canonical_classes | join(', ') }}
+{% endif %}
 {% if postfix_sender_canonical_maps %}
 sender_canonical_maps = {{ postfix_sender_canonical_maps_database_type }}:{{ postfix_sender_canonical_maps_file }}
 {% endif %}
 {% if postfix_sender_login_maps %}
 smtpd_sender_login_maps = {{ postfix_sender_login_maps_database_type }}:{{ postfix_sender_login_maps_file }}
 {% endif %}
+{% if postfix_postsrsd %}
+sender_canonical_maps = {{ postfix_sender_canonical_maps_database_type }}:{{ postfix_postsrsd.sender }}
+{% endif %}
 {% if postfix_recipient_canonical_maps %}
 recipient_canonical_maps = {{ postfix_recipient_canonical_maps_database_type }}:{{ postfix_recipient_canonical_maps_file }}
+{% endif %}
+{% if postfix_postsrsd %}
+recipient_canonical_maps = {{ postfix_recipient_canonical_maps_database_type }}:{{ postfix_postsrsd.recipient }}
 {% endif %}
 {% if postfix_transport_maps %}
 transport_maps = {{ postfix_transport_maps_database_type }}:{{ postfix_transport_maps_file }}
